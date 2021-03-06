@@ -2,6 +2,8 @@
 
 using namespace std;
 
+
+//struct for the huffman tree
 struct Tree {
 	int frequency;
 	unsigned char charac;
@@ -9,6 +11,7 @@ struct Tree {
 	Tree *right = NULL;
 };
 
+//Maps the characters with their respective huffman codes
 void buildCharacterCodes(Tree *root, string prepend, string append, map<unsigned char, string> &chararCodes) {
 	prepend = prepend + append;
 
@@ -25,6 +28,7 @@ void buildCharacterCodes(Tree *root, string prepend, string append, map<unsigned
 	}
 }
 
+//Opens file and reads the file into a unsigned char array
 unsigned char *getBufferFromFile(char *path, long *size) {
 	unsigned char *source = NULL;
 	FILE *fp = fopen("foo.txt", "r");
@@ -63,6 +67,7 @@ unsigned char *getBufferFromFile(char *path, long *size) {
 	return source;
 }
 
+//Makes a bitstring according to the given file nd character codes
 string getBitString(unsigned char *buf, map<unsigned char, string> characCodes, long size, int &padding) {
 
 	string outputString = "";
@@ -84,31 +89,32 @@ string getBitString(unsigned char *buf, map<unsigned char, string> characCodes, 
 	return outputString;
 }
 
+//Makes the final encoded string from the bitString using bit manipulation
 void getEncodedBufferFromBitString(string bitstring, vector<unsigned char> &outputBuffer, long &size) {
 	//    bit=(bit<<1)|(arr[i]-'0');
-    unsigned char bit=0;
-    long checkByte=0;
+	unsigned char bit = 0;
+	long checkByte = 0;
 
-    for(int i=0;i<size;i++){
+	for (int i = 0; i < size; i++) {
 
-        bit=(bit<<1)|(bitstring[i]-'0');
+		bit = (bit << 1) | (bitstring[i] - '0');
 
-        checkByte++;
+		checkByte++;
 
-        if(checkByte%8==0){
-            outputBuffer.push_back(bit);
-            bit=0;
-        }
-    }
+		if (checkByte % 8 == 0) {
+			outputBuffer.push_back(bit);
+			bit = 0;
+		}
+	}
 }
 
 int main() {
 
-	long bufsize;
+	long bufsize;//the file size
 	int padding = 0; // the number of bits left which we fill with 0
-	vector<unsigned char> outputBuffer;
+	vector<unsigned char> outputBuffer;//encoded buffer after character coding according to the huffman algo
 
-	map<unsigned char, string> characCodes;
+	map<unsigned char, string> characCodes; // map consisting of all the character with their respective huffman codes
 
 	buildCharacterCodes(root, "", "", characCodes);
 
