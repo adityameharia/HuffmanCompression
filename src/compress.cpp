@@ -2,8 +2,7 @@
 
 using namespace std;
 
-
-//struct for the huffman tree
+// struct for the huffman tree
 struct Tree {
 	int frequency;
 	unsigned char charac;
@@ -11,7 +10,7 @@ struct Tree {
 	Tree *right = NULL;
 };
 
-//Maps the characters with their respective huffman codes
+// Maps the characters with their respective huffman codes
 void buildCharacterCodes(Tree *root, string prepend, string append, map<unsigned char, string> &chararCodes) {
 	prepend = prepend + append;
 
@@ -28,7 +27,7 @@ void buildCharacterCodes(Tree *root, string prepend, string append, map<unsigned
 	}
 }
 
-//Opens file and reads the file into a unsigned char array
+// Opens file and reads the file into a unsigned char array
 unsigned char *getBufferFromFile(char *path, long *size) {
 	unsigned char *source = NULL;
 	FILE *fp = fopen("foo.txt", "r");
@@ -67,7 +66,7 @@ unsigned char *getBufferFromFile(char *path, long *size) {
 	return source;
 }
 
-//Makes a bitstring according to the given file nd character codes
+// Makes a bitstring according to the given file nd character codes
 string getBitString(unsigned char *buf, map<unsigned char, string> characCodes, long size, int &padding) {
 
 	string outputString = "";
@@ -89,7 +88,7 @@ string getBitString(unsigned char *buf, map<unsigned char, string> characCodes, 
 	return outputString;
 }
 
-//Makes the final encoded string from the bitString using bit manipulation
+// Makes the final encoded string from the bitString using bit manipulation
 void getEncodedBufferFromBitString(string bitstring, vector<unsigned char> &outputBuffer, long &size) {
 	//    bit=(bit<<1)|(arr[i]-'0');
 	unsigned char bit = 0;
@@ -108,11 +107,43 @@ void getEncodedBufferFromBitString(string bitstring, vector<unsigned char> &outp
 	}
 }
 
+//writes given buffer into file
+void writeBufferToFile(char *path, unsigned char *buffer, int sz, int flag){
+	FILE *fp;
+    if(flag==0)
+    {
+        fp = fopen(path, "wb");
+    }
+
+    else{
+        fp = fopen(path, "ab");
+    }
+   
+    fwrite(buffer, 1, sz, fp);
+
+    fclose(fp);
+}
+
+//writes header,ie padding,size of map,maps in the form of char,leng,string... 
+void writeHeader(char* path, map<unsigned char, string> characCodes, int padding) {
+
+	int size = characCodes.size();
+	writeBufferToFile(path, (unsigned char *)&padding, sizeof(int), 0);
+	writeBufferToFile(path, (unsigned char *)&size, sizeof(int), 1);
+	char nullBit = '\0';
+	for (map<unsigned char, string>::iterator i = characCodes.begin(); i != characCodes.end(); i++) {
+		writeBufferToFile(path, (unsigned char *)&i->first, 1, 1);
+		int len = i->second.size();
+		writeBufferToFile(path, (unsigned char *)&len, sizeof(int), 1);
+		writeBufferToFile(path, (unsigned char *)i->second.c_str(), len, 1);
+	}
+}
+
 int main() {
 
-	long bufsize;//the file size
-	int padding = 0; // the number of bits left which we fill with 0
-	vector<unsigned char> outputBuffer;//encoded buffer after character coding according to the huffman algo
+	long bufsize;						// the file size
+	int padding = 0;					// the number of bits left which we fill with 0
+	vector<unsigned char> outputBuffer; // encoded buffer after character coding according to the huffman algo
 
 	map<unsigned char, string> characCodes; // map consisting of all the character with their respective huffman codes
 
@@ -122,5 +153,15 @@ int main() {
 
 	string bitString = getBitString(buf, characCodes, bufsize, padding);
 
+	bufsize=bitString.size();
+
+	vector<unsigned char> outputBuffer;
+
 	getEncodedBufferFromBitString(bitString, outputBuffer, bufsize);
+
+	unsigned char* output = outputBuffer.data();
+
+	writeHeader(path, characCodes, padding);
+
+	writeBufferToFile(path, output, bufsize, 1);
 }
