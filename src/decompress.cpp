@@ -47,6 +47,9 @@ int main()
 
 	cout<<"\n\n----------------------\n";
 
+
+	ofstream fout("../decompression_sample/decompressed.txt");
+
 	char inp;
 	char mask = 128;
 	char move = 0;
@@ -70,6 +73,7 @@ int main()
 			else
 			{
 				cout<<huff[charecter];
+				fout<<huff[charecter];
 				charecter = "";
 			}
 
