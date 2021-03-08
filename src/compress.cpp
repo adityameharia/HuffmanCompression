@@ -41,19 +41,6 @@ struct compare {
         return (l->freq > r->freq);
     }
 };
-
-// void printCodes(struct MinHeapNode* root, string str)
-// {
- 
-//     if (!root)
-//         return;
- 
-//     if (root->data != '$')
-//         cout << root->data << ": " << str << "\n";
- 
-//     printCodes(root->left, str + "0");
-//     printCodes(root->right, str + "1");
-// }
  
 // The main function that builds a Huffman MinHeapNode and
 // print codes by traversing the built Huffman MinHeapNode
@@ -93,11 +80,6 @@ MinHeapNode* HuffmanCodes(char data[], int freq[], int size)
         minHeap.push(top);
     }
 
-	
- 
-    // Print Huffman codes using
-    // the Huffman tree built above
-    // printCodes(minHeap.top(), "");
 	return minHeap.top();
 }
 

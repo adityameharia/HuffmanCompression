@@ -10,7 +10,7 @@ int main()
 	char* huff_code;
 	char huff_code_char;
 
-	ifstream fin("../decompression_sample/try.txt",ios::in | ios::binary);
+	ifstream fin("try.txt",ios::in | ios::binary);
 
 	int padding;
 	int map_size;
@@ -57,9 +57,12 @@ int main()
 	char zero = '0';
 	string charecter = "" ;
 
-	while ( !fin.eof() )
+	//while ( !fin.eof() )
+	while(true)
 	{
 		fin.get(inp);
+		//added by adi
+		if(fin.eof())break;
 		for ( int i = 0 ; i < 8 ; i++ )
 		{
 			move = inp & mask;
@@ -78,7 +81,8 @@ int main()
 			}
 
 		}
-
+		
+		
 	}
 }
 
