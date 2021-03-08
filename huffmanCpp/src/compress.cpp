@@ -1,60 +1,37 @@
-#include <bits/stdc++.h>
+#include "compress.h"
 
 using namespace std;
 
-// // struct for the huffman tree
-// struct MinHeapNode {
-// 	int frequency;
-// 	unsigned char charac;
-// 	MinHeapNode *left = NULL;
-// 	MinHeapNode *right = NULL;
-// };
 
-struct MinHeapNode {
- 
-    // One of the input characters
-    char data;
- 
-    // Frequency of the character
-    unsigned freq;
- 
-    // Left and right child
-    MinHeapNode *left, *right;
- 
-    MinHeapNode(char data, unsigned freq)
- 
-    {
- 
-        left = right = NULL;
-        this->data = data;
-        this->freq = freq;
-    }
-};
- 
-// For comparison of
-// two heap nodes (needed in min heap)
-struct compare {
- 
-    bool operator()(MinHeapNode* l, MinHeapNode* r)
- 
-    {
-        return (l->freq > r->freq);
-    }
-};
+void findFreq( ifstream& fin , map<unsigned char,int>& huff )
+{
+	char ch;
+	
+	while ( true )
+	{		
+		fin.get(ch);
+		
+		if ( fin.eof() ) break; //Adi your code
+		
+		if ( huff.find(ch) == huff.end() )
+			huff.insert(make_pair(ch,1));
+		else
+			huff[ch]++;
+	}
+}
  
 // The main function that builds a Huffman MinHeapNode and
-// print codes by traversing the built Huffman MinHeapNode
-MinHeapNode* HuffmanCodes(char data[], int freq[], int size)
+MinHeapNode* HuffmanCodes(map<unsigned char,int>freqtable)
 {
     struct MinHeapNode *left, *right, *top;
  
     // Create a min heap & inserts all characters of data[]
     priority_queue<MinHeapNode*, vector<MinHeapNode*>, compare> minHeap;
+
+	for(auto i:freqtable){
+		 minHeap.push(new MinHeapNode(i.first,i.second));
+	}
  
-    for (int i = 0; i < size; ++i)
-        minHeap.push(new MinHeapNode(data[i], freq[i]));
- 
-    // Iterate while size of heap doesn't become 1
     while (minHeap.size() != 1) {
  
         // Extract the two minimum
@@ -65,13 +42,6 @@ MinHeapNode* HuffmanCodes(char data[], int freq[], int size)
         right = minHeap.top();
         minHeap.pop();
  
-        // Create a new internal node with
-        // frequency equal to the sum of the
-        // two nodes frequencies. Make the
-        // two extracted node as left and right children
-        // of this new node. Add this node
-        // to the min heap '$' is a special value
-        // for internal nodes, not used
         top = new MinHeapNode('$', left->freq + right->freq);
  
         top->left = left;
@@ -148,17 +118,17 @@ string getBitString(unsigned char *buf, map<unsigned char, string> characCodes, 
 
 	long lenOutputString = outputString.length();
 
-	cout<<outputString<<endl;
+	
 
 	if (lenOutputString % 8 != 0) {
 		int val = 8*((lenOutputString/8)+1)-lenOutputString;
 		padding = val;
-		cout<<val<<endl;
+		
 		for (int i = 0; i < val; i++) {
 			outputString += "0";
 		}
 	}
-	cout<<outputString<<endl;
+
 	return outputString;
 }
 
@@ -167,12 +137,12 @@ unsigned char* getEncodedBufferFromBitString(string bitstring, vector<unsigned c
 	//    bit=(bit<<1)|(arr[i]-'0');
 	unsigned char bit = 0;
 	long checkByte = 0;
-	cout<<"man no"<<endl;
+	
 	for (int i = 0; i < size; i++) {
 		
-		cout<<bitstring[i]<<endl;
+		
 		bit = (bit << 1) | (bitstring[i] - '0');
-		cout<<bit<<endl;
+		
 		checkByte++;
 
 		if (checkByte % 8 == 0) {
@@ -180,9 +150,9 @@ unsigned char* getEncodedBufferFromBitString(string bitstring, vector<unsigned c
 			bit = 0;
 		}
 	}
-	cout<<"bye"<<endl;
+	
 	size = outputBuffer.size();
-	cout<<size<<endl;
+	
 	return outputBuffer.data();
 }
 
@@ -211,7 +181,7 @@ void writeHeader(char* path, map<unsigned char, string> characCodes, int padding
 	writeBufferToFile(path, (unsigned char *)&size, sizeof(int), 1);
 	char nullBit = '\0';
 	for (map<unsigned char, string>::iterator i = characCodes.begin(); i != characCodes.end(); i++) {
-		cout<<i->first<<" "<<i->second<<endl;
+		
 		writeBufferToFile(path, (unsigned char *)&i->first, 1, 1);
 		int len = i->second.size();
 		writeBufferToFile(path, (unsigned char *)&len, sizeof(int), 1);
@@ -222,7 +192,7 @@ void writeHeader(char* path, map<unsigned char, string> characCodes, int padding
 
  
 
-int main() {
+void compress() {
 
 	string path="test.txt";
 	char* output_path="try.txt";
@@ -233,12 +203,13 @@ int main() {
 
 	map<unsigned char, string> characCodes; // map consisting of all the character with their respective huffman codes
 
-	char arr[] = { 'w', 't', 'f'};
-    int freq[] = { 1,1,1 };
- 
-    int size = sizeof(arr) / sizeof(arr[0]);
- 
-    auto root=HuffmanCodes(arr, freq, size);
+	map<unsigned char,int> freqtable; //frequency table
+
+	ifstream fin("test.txt",ios::in | ios::binary);
+
+	findFreq(fin,freqtable);
+
+    auto root=HuffmanCodes(freqtable);
 
 	buildCharacterCodes(root, "", "", characCodes);
 
@@ -248,19 +219,11 @@ int main() {
 
 	bufsize=bitString.size();
 
-	cout<<bitString<<endl;
-	cout<<bufsize<<endl;
-
 	getEncodedBufferFromBitString(bitString, outputBuffer, bufsize);
 
 	unsigned char* output = outputBuffer.data();
 
-	cout<<"hi"<<endl;
-	cout<<outputBuffer.data()<<endl;
-
-	writeHeader(output_path, characCodes, padding);
-
-	cout<<bitString<<endl;
+	writeHeader(output_path, characCodes, padding);	
 
 	writeBufferToFile(output_path, output, bufsize, 1);
 }
