@@ -2,20 +2,111 @@
 
 using namespace std;
 
-// struct for the huffman tree
-struct Tree {
-	int frequency;
-	unsigned char charac;
-	Tree *left = NULL;
-	Tree *right = NULL;
+// // struct for the huffman tree
+// struct MinHeapNode {
+// 	int frequency;
+// 	unsigned char charac;
+// 	MinHeapNode *left = NULL;
+// 	MinHeapNode *right = NULL;
+// };
+
+struct MinHeapNode {
+ 
+    // One of the input characters
+    char data;
+ 
+    // Frequency of the character
+    unsigned freq;
+ 
+    // Left and right child
+    MinHeapNode *left, *right;
+ 
+    MinHeapNode(char data, unsigned freq)
+ 
+    {
+ 
+        left = right = NULL;
+        this->data = data;
+        this->freq = freq;
+    }
+};
+ 
+// For comparison of
+// two heap nodes (needed in min heap)
+struct compare {
+ 
+    bool operator()(MinHeapNode* l, MinHeapNode* r)
+ 
+    {
+        return (l->freq > r->freq);
+    }
 };
 
-// Maps the characters with their respective huffman codes
-void buildCharacterCodes(Tree *root, string prepend, string append, map<unsigned char, string> &chararCodes) {
+// void printCodes(struct MinHeapNode* root, string str)
+// {
+ 
+//     if (!root)
+//         return;
+ 
+//     if (root->data != '$')
+//         cout << root->data << ": " << str << "\n";
+ 
+//     printCodes(root->left, str + "0");
+//     printCodes(root->right, str + "1");
+// }
+ 
+// The main function that builds a Huffman MinHeapNode and
+// print codes by traversing the built Huffman MinHeapNode
+MinHeapNode* HuffmanCodes(char data[], int freq[], int size)
+{
+    struct MinHeapNode *left, *right, *top;
+ 
+    // Create a min heap & inserts all characters of data[]
+    priority_queue<MinHeapNode*, vector<MinHeapNode*>, compare> minHeap;
+ 
+    for (int i = 0; i < size; ++i)
+        minHeap.push(new MinHeapNode(data[i], freq[i]));
+ 
+    // Iterate while size of heap doesn't become 1
+    while (minHeap.size() != 1) {
+ 
+        // Extract the two minimum
+        // freq items from min heap
+        left = minHeap.top();
+        minHeap.pop();
+ 
+        right = minHeap.top();
+        minHeap.pop();
+ 
+        // Create a new internal node with
+        // frequency equal to the sum of the
+        // two nodes frequencies. Make the
+        // two extracted node as left and right children
+        // of this new node. Add this node
+        // to the min heap '$' is a special value
+        // for internal nodes, not used
+        top = new MinHeapNode('$', left->freq + right->freq);
+ 
+        top->left = left;
+        top->right = right;
+ 
+        minHeap.push(top);
+    }
+
+	
+ 
+    // Print Huffman codes using
+    // the Huffman tree built above
+    // printCodes(minHeap.top(), "");
+	return minHeap.top();
+}
+
+// maps the characters with their respective huffman codes
+void buildCharacterCodes(MinHeapNode *root, string prepend, string append, map<unsigned char, string> &chararCodes) {
 	prepend = prepend + append;
 
 	if (root->right == NULL && root->left == NULL) {
-		chararCodes[root->charac] = prepend;
+		chararCodes[root->data] = prepend;
 	}
 
 	if (root->right != NULL) {
@@ -28,9 +119,9 @@ void buildCharacterCodes(Tree *root, string prepend, string append, map<unsigned
 }
 
 // Opens file and reads the file into a unsigned char array
-unsigned char *getBufferFromFile(char *path, long *size) {
+unsigned char *getBufferFromFile(string path, long *size) {
 	unsigned char *source = NULL;
-	FILE *fp = fopen("foo.txt", "r");
+	FILE *fp = fopen("test.txt", "r");
 	if (fp != NULL) {
 
 		if (fseek(fp, 0L, SEEK_END) == 0) {
@@ -62,7 +153,6 @@ unsigned char *getBufferFromFile(char *path, long *size) {
 		}
 		fclose(fp);
 	}
-
 	return source;
 }
 
@@ -76,28 +166,31 @@ string getBitString(unsigned char *buf, map<unsigned char, string> characCodes, 
 
 	long lenOutputString = outputString.length();
 
-	if (lenOutputString % 8 != 0) {
-		int val = ((lenOutputString + 1) * 8) - lenOutputString;
-		padding = val;
+	cout<<outputString<<endl;
 
+	if (lenOutputString % 8 != 0) {
+		int val = 8*((lenOutputString/8)+1)-lenOutputString;
+		padding = val;
+		cout<<val<<endl;
 		for (int i = 0; i < val; i++) {
 			outputString += "0";
 		}
 	}
-
+	cout<<outputString<<endl;
 	return outputString;
 }
 
 // Makes the final encoded string from the bitString using bit manipulation
-void getEncodedBufferFromBitString(string bitstring, vector<unsigned char> &outputBuffer, long &size) {
+unsigned char* getEncodedBufferFromBitString(string bitstring, vector<unsigned char> &outputBuffer, long& size) {
 	//    bit=(bit<<1)|(arr[i]-'0');
 	unsigned char bit = 0;
 	long checkByte = 0;
-
+	cout<<"man no"<<endl;
 	for (int i = 0; i < size; i++) {
-
+		
+		cout<<bitstring[i]<<endl;
 		bit = (bit << 1) | (bitstring[i] - '0');
-
+		cout<<bit<<endl;
 		checkByte++;
 
 		if (checkByte % 8 == 0) {
@@ -105,6 +198,10 @@ void getEncodedBufferFromBitString(string bitstring, vector<unsigned char> &outp
 			bit = 0;
 		}
 	}
+	cout<<"bye"<<endl;
+	size = outputBuffer.size();
+	cout<<size<<endl;
+	return outputBuffer.data();
 }
 
 //writes given buffer into file
@@ -132,6 +229,7 @@ void writeHeader(char* path, map<unsigned char, string> characCodes, int padding
 	writeBufferToFile(path, (unsigned char *)&size, sizeof(int), 1);
 	char nullBit = '\0';
 	for (map<unsigned char, string>::iterator i = characCodes.begin(); i != characCodes.end(); i++) {
+		cout<<i->first<<" "<<i->second<<endl;
 		writeBufferToFile(path, (unsigned char *)&i->first, 1, 1);
 		int len = i->second.size();
 		writeBufferToFile(path, (unsigned char *)&len, sizeof(int), 1);
@@ -139,13 +237,26 @@ void writeHeader(char* path, map<unsigned char, string> characCodes, int padding
 	}
 }
 
+
+ 
+
 int main() {
+
+	string path="test.txt";
+	char* output_path="try.txt";
 
 	long bufsize;						// the file size
 	int padding = 0;					// the number of bits left which we fill with 0
 	vector<unsigned char> outputBuffer; // encoded buffer after character coding according to the huffman algo
 
 	map<unsigned char, string> characCodes; // map consisting of all the character with their respective huffman codes
+
+	char arr[] = { 'w', 't', 'f'};
+    int freq[] = { 1,1,1 };
+ 
+    int size = sizeof(arr) / sizeof(arr[0]);
+ 
+    auto root=HuffmanCodes(arr, freq, size);
 
 	buildCharacterCodes(root, "", "", characCodes);
 
@@ -155,13 +266,19 @@ int main() {
 
 	bufsize=bitString.size();
 
-	vector<unsigned char> outputBuffer;
+	cout<<bitString<<endl;
+	cout<<bufsize<<endl;
 
 	getEncodedBufferFromBitString(bitString, outputBuffer, bufsize);
 
 	unsigned char* output = outputBuffer.data();
 
-	writeHeader(path, characCodes, padding);
+	cout<<"hi"<<endl;
+	cout<<outputBuffer.data()<<endl;
 
-	writeBufferToFile(path, output, bufsize, 1);
+	writeHeader(output_path, characCodes, padding);
+
+	cout<<bitString<<endl;
+
+	writeBufferToFile(output_path, output, bufsize, 1);
 }
