@@ -120,7 +120,7 @@ void buildHuffmanTree(string tp)
 // Huffman coding algorithm
 int main()
 {
-	 string tp="hamlet text";
+	 string tp="hamlet.text";
 	 buildHuffmanTree(tp);
 	return 0;
 }
