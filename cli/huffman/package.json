@@ -1,7 +1,7 @@
 {
   "name": "huffman-compressor",
   "description": "A cli tool to compress files usig huffman algorithm ",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "author": " @adityameharia",
   "bin": {
     "huffman-compressor": "./bin/run"
