@@ -15,11 +15,11 @@ A cli tool to compress files usig huffman algorithm
 # Usage
 <!-- usage -->
 ```sh-session
-$ npm install -g huffman
+$ npm install -g huffman-compressor
 $ huffman COMMAND
 running command...
 $ huffman (-v|--version|version)
-huffman/0.0.0 linux-x64 node-v14.15.4
+huffman-compressor/0.0.0 linux-x64 node-v14.15.4
 $ huffman --help [COMMAND]
 USAGE
   $ huffman COMMAND
@@ -29,7 +29,7 @@ USAGE
 # Commands
 <!-- commands -->
 * [`huffman compress PATH`](#huffman-compress-path)
-* [`huffman decompress`](#huffman-decompress)
+* [`huffman decompress PATH`](#huffman-decompress-path)
 * [`huffman hello`](#huffman-hello)
 * [`huffman help [COMMAND]`](#huffman-help-command)
 
@@ -50,20 +50,19 @@ OPTIONS
 
 _See code: [src/commands/compress.js](https://github.com/adityameharia/huffmanCompression/blob/v0.0.0/src/commands/compress.js)_
 
-## `huffman decompress`
+## `huffman decompress PATH`
 
-Describe the command here
+Decompress decompresses the file using huffman algorithm
 
 ```
 USAGE
-  $ huffman decompress
+  $ huffman decompress PATH
+
+ARGUMENTS
+  PATH  path to input file with respect to the current working directory
 
 OPTIONS
-  -n, --name=name  name to print
-
-DESCRIPTION
-  ...
-  Extra documentation goes here
+  -o, --name=name  name of output file
 ```
 
 _See code: [src/commands/decompress.js](https://github.com/adityameharia/huffmanCompression/blob/v0.0.0/src/commands/decompress.js)_

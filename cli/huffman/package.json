@@ -1,5 +1,5 @@
 {
-  "name": "huffman",
+  "name": "huffman-compressor",
   "description": "A cli tool to compress files usig huffman algorithm ",
   "version": "0.0.0",
   "author": " @adityameharia",
@@ -33,7 +33,7 @@
   "main": "src/index.js",
   "oclif": {
     "commands": "./src/commands",
-    "bin": "huffman",
+    "bin": "huffman-compressor",
     "plugins": [
       "@oclif/plugin-help"
     ]
