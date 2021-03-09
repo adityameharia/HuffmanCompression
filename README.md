@@ -19,7 +19,7 @@ $ npm install -g huffman-compressor
 $ huffman-compressor COMMAND
 running command...
 $ huffman-compressor (-v|--version|version)
-huffman-compressor/0.0.2 linux-x64 node-v14.15.4
+huffman-compressor/0.1.0 linux-x64 node-v14.15.4
 $ huffman-compressor --help [COMMAND]
 USAGE
   $ huffman-compressor COMMAND
@@ -30,7 +30,6 @@ USAGE
 <!-- commands -->
 * [`huffman-compressor compress PATH`](#huffman-compressor-compress-path)
 * [`huffman-compressor decompress PATH`](#huffman-compressor-decompress-path)
-* [`huffman-compressor hello`](#huffman-compressor-hello)
 * [`huffman-compressor help [COMMAND]`](#huffman-compressor-help-command)
 
 ## `huffman-compressor compress PATH`
@@ -48,7 +47,7 @@ OPTIONS
   -o, --name=name  name of output file
 ```
 
-_See code: [src/commands/compress.js](https://github.com/adityameharia/huffmanCompression/blob/v0.0.2/src/commands/compress.js)_
+_See code: [src/commands/compress.js](https://github.com/adityameharia/huffmanCompression/blob/v0.1.0/src/commands/compress.js)_
 
 ## `huffman-compressor decompress PATH`
 
@@ -65,25 +64,7 @@ OPTIONS
   -o, --name=name  name of output file
 ```
 
-_See code: [src/commands/decompress.js](https://github.com/adityameharia/huffmanCompression/blob/v0.0.2/src/commands/decompress.js)_
-
-## `huffman-compressor hello`
-
-Describe the command here
-
-```
-USAGE
-  $ huffman-compressor hello
-
-OPTIONS
-  -n, --name=name  name to print
-
-DESCRIPTION
-  ...
-  Extra documentation goes here
-```
-
-_See code: [src/commands/hello.js](https://github.com/adityameharia/huffmanCompression/blob/v0.0.2/src/commands/hello.js)_
+_See code: [src/commands/decompress.js](https://github.com/adityameharia/huffmanCompression/blob/v0.1.0/src/commands/decompress.js)_
 
 ## `huffman-compressor help [COMMAND]`
 
