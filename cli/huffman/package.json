@@ -1,0 +1,48 @@
+{
+  "name": "huffman",
+  "description": "A cli tool to compress files usig huffman algorithm ",
+  "version": "0.0.0",
+  "author": " @adityameharia",
+  "bin": {
+    "huffman": "./bin/run"
+  },
+  "bugs": "https://github.com/adityameharia/huffmanCompression/issues",
+  "dependencies": {
+    "@oclif/command": "^1.8.0",
+    "@oclif/config": "^1.17.0",
+    "@oclif/plugin-help": "^3.2.2"
+  },
+  "devDependencies": {
+    "@oclif/dev-cli": "^1.26.0",
+    "globby": "^10.0.2"
+  },
+  "engines": {
+    "node": ">=8.0.0"
+  },
+  "files": [
+    "/bin",
+    "/npm-shrinkwrap.json",
+    "/oclif.manifest.json",
+    "/src"
+  ],
+  "homepage": "https://github.com/adityameharia/huffmanCompression",
+  "keywords": [
+    "oclif"
+  ],
+  "license": "MIT",
+  "main": "src/index.js",
+  "oclif": {
+    "commands": "./src/commands",
+    "bin": "huffman",
+    "plugins": [
+      "@oclif/plugin-help"
+    ]
+  },
+  "repository": "adityameharia/huffmanCompression",
+  "scripts": {
+    "postpack": "rm -f oclif.manifest.json",
+    "prepack": "oclif-dev manifest && oclif-dev readme",
+    "test": "echo NO TESTS",
+    "version": "oclif-dev readme && git add README.md"
+  }
+}
