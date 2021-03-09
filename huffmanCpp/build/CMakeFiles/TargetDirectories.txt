@@ -1,3 +1,0 @@
-/home/adi/HuffmanCompression/huffmanCpp/build/CMakeFiles/rebuild_cache.dir
-/home/adi/HuffmanCompression/huffmanCpp/build/CMakeFiles/edit_cache.dir
-/home/adi/HuffmanCompression/huffmanCpp/build/CMakeFiles/huffmanCompression.dir

@@ -28,17 +28,35 @@ USAGE
 <!-- usagestop -->
 # Commands
 <!-- commands -->
-* [`huffman compress`](#huffman-compress)
+* [`huffman compress PATH`](#huffman-compress-path)
+* [`huffman decompress`](#huffman-decompress)
 * [`huffman hello`](#huffman-hello)
 * [`huffman help [COMMAND]`](#huffman-help-command)
 
-## `huffman compress`
+## `huffman compress PATH`
+
+Compress compresses the file using huffman algorithm
+
+```
+USAGE
+  $ huffman compress PATH
+
+ARGUMENTS
+  PATH  path to input file with respect to the current working directory
+
+OPTIONS
+  -o, --name=name  name of output file
+```
+
+_See code: [src/commands/compress.js](https://github.com/adityameharia/huffmanCompression/blob/v0.0.0/src/commands/compress.js)_
+
+## `huffman decompress`
 
 Describe the command here
 
 ```
 USAGE
-  $ huffman compress
+  $ huffman decompress
 
 OPTIONS
   -n, --name=name  name to print
@@ -48,7 +66,7 @@ DESCRIPTION
   Extra documentation goes here
 ```
 
-_See code: [src/commands/compress.js](https://github.com/adityameharia/huffmanCompression/blob/v0.0.0/src/commands/compress.js)_
+_See code: [src/commands/decompress.js](https://github.com/adityameharia/huffmanCompression/blob/v0.0.0/src/commands/decompress.js)_
 
 ## `huffman hello`
 

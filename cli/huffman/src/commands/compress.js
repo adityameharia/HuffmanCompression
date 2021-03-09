@@ -6,7 +6,7 @@ class CompressCommand extends Command {
   async run() {
     const {args}=this.parse(CompressCommand)
     const {flags} = this.parse(CompressCommand)
-    const name = (flags.name || 'compressed')+".wtf"
+    const name = (flags.name || args["path"])+".wtf"
     
     execFile(__dirname+"/executables/compress.out", [process.cwd()+"/"+args["path"],name],function (error, stdout, stderr) {
       // This callback is invoked once the child terminates
