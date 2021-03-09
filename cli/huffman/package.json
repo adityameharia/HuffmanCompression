@@ -1,10 +1,10 @@
 {
   "name": "huffman-compressor",
   "description": "A cli tool to compress files usig huffman algorithm ",
-  "version": "0.0.0",
+  "version": "0.0.2",
   "author": " @adityameharia",
   "bin": {
-    "huffman": "./bin/run"
+    "huffman-compressor": "./bin/run"
   },
   "bugs": "https://github.com/adityameharia/huffmanCompression/issues",
   "dependencies": {
