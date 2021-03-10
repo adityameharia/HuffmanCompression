@@ -6,7 +6,10 @@
 #define GetCurrentDir getcwd
 #endif
 
-#include <bits/stdc++.h>
+#include <unordered_map>
+#include <iostream>
+#include <string>
+#include <fstream>
 using namespace std;
 
 inline bool exists_test0 (const string& name) {
