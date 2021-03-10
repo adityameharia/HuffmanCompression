@@ -19,7 +19,7 @@ $ npm install -g huffman-compressor
 $ huffman-compressor COMMAND
 running command...
 $ huffman-compressor (-v|--version|version)
-huffman-compressor/0.1.1 linux-x64 node-v14.15.4
+huffman-compressor/1.0.0 linux-x64 node-v14.15.4
 $ huffman-compressor --help [COMMAND]
 USAGE
   $ huffman-compressor COMMAND
@@ -47,7 +47,7 @@ OPTIONS
   -o, --name=name  name of output file
 ```
 
-_See code: [src/commands/compress.js](https://github.com/adityameharia/huffmanCompression/blob/v0.1.1/src/commands/compress.js)_
+_See code: [src/commands/compress.js](https://github.com/adityameharia/huffmanCompression/blob/v1.0.0/src/commands/compress.js)_
 
 ## `huffman-compressor decompress PATH`
 
@@ -64,7 +64,7 @@ OPTIONS
   -o, --name=name  name of output file
 ```
 
-_See code: [src/commands/decompress.js](https://github.com/adityameharia/huffmanCompression/blob/v0.1.1/src/commands/decompress.js)_
+_See code: [src/commands/decompress.js](https://github.com/adityameharia/huffmanCompression/blob/v1.0.0/src/commands/decompress.js)_
 
 ## `huffman-compressor help [COMMAND]`
 

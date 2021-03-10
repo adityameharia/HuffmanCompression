@@ -1,7 +1,8 @@
 huffman
 =======
 
-A cli tool to compress files usig huffman algorithm 
+A cli tool written in nodejs which uses cpp binaries to compress files usig huffman algorithm.
+Currently supports Windows,Mac OS and linux. 
 
 [![oclif](https://img.shields.io/badge/cli-oclif-brightgreen.svg)](https://oclif.io)
 [![Version](https://img.shields.io/npm/v/huffman.svg)](https://npmjs.org/package/huffman)
