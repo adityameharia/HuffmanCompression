@@ -17,6 +17,9 @@ class DecompressCommand extends Command {
     else if(os.platform()=="win32"){
       executable="decompress.exe"
     }
+    else if(os.platform()=="darwin"){
+      executable="decompress"
+    }
     else{
       console.log("Your os is not supported at the moment.")
       process.exit(1)

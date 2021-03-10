@@ -17,6 +17,9 @@ class CompressCommand extends Command {
     else if(os.platform()=="win32"){
       executable="compress.exe"
     }
+    else if(os.platform()=="darwin"){
+      executable="compress"
+    }
     else{
       console.log("Your os is not supported at the moment.")
       process.exit(1)
