@@ -37,4 +37,4 @@ string getBitString(unsigned char *buf, map<unsigned char, string> characCodes, 
 unsigned char* getEncodedBufferFromBitString(string bitstring, vector<unsigned char> &outputBuffer, long& size);
 void writeBufferToFile(char *path, unsigned char *buffer, int sz, int flag);
 void writeHeader(char* path, map<unsigned char, string> characCodes, int padding) ;
-void compress();
+void compress(string path,char* output_path);

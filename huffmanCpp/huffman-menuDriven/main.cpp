@@ -4,7 +4,7 @@
 using namespace std;
 
 int main(){
-    compress();
-    decompress();
+    compress("text.txt","try.txt");
+    decompress("text.txt","try.txt");
     return 0;
 }

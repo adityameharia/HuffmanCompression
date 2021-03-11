@@ -2,7 +2,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-void decompress()
+void decompress(string input,string output)
 {
 	unordered_map <string,unsigned char> huff;
 
@@ -11,7 +11,7 @@ void decompress()
 	char* huff_code;
 	char huff_code_char;
 
-	ifstream fin("try.txt",ios::in | ios::binary);
+	ifstream fin(input,ios::in | ios::binary);
 
 	int padding;
 	int map_size;
@@ -49,7 +49,7 @@ void decompress()
 	cout<<"\n\n----------------------\n";
 
 
-	ofstream fout("../decompression_sample/decompressed.txt");
+	ofstream fout(output);
 
 	char inp;
 	char mask = 128;
